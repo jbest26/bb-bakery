@@ -2,17 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Brand CSS variables ──────────────────────────────── */
+/* ─── Brand CSS variables ─────────────────────────────────── */
 :root {
-  --bb-bg:    #F7F3ED;
-  --bb-brown: #2C1A0E;
-  --bb-terra: #C4522A;
-  --bb-olive: #5C6B3A;
-  --bb-card:  #FFFAF5;
+  --bb-bg:     #F7F3ED;
+  --bb-brown:  #2C1A0E;
+  --bb-terra:  #C4522A;
+  --bb-olive:  #5C6B3A;
+  --bb-card:   #FFFAF5;
 }
 
+/* ─── Base layer overrides ────────────────────────────────── */
 @layer base {
-  html { background-color: var(--bb-bg); }
+  html {
+    background-color: var(--bb-bg);
+  }
+
   body {
     background-color: var(--bb-bg);
     color: var(--bb-brown);
@@ -20,25 +24,62 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  h1,h2,h3,h4,h5,h6 {
+
+  h1, h2, h3, h4, h5, h6 {
     font-family: "Fraunces", Georgia, serif;
     line-height: 1.15;
   }
-  a { -webkit-tap-highlight-color: transparent; }
+
+  /* Smooth tap highlighting on mobile */
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
+/* ─── Animations ─────────────────────────────────────────── */
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@layer utilities {
+  .animate-slide-down {
+    animation: slideDown 0.22s ease-out both;
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out both;
+  }
+  /* Hide scrollbar but keep scroll functional */
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ─── Utility component classes ──────────────────────────── */
 @layer components {
   .bb-container {
     @apply max-w-content mx-auto px-4;
   }
+
   .btn-terra {
     @apply inline-flex items-center gap-1.5 rounded-full border border-bb-terra
            px-5 py-2 text-sm font-medium text-bb-terra
-           transition-colors hover:bg-bb-terra hover:text-white active:scale-95;
+           transition-colors hover:bg-bb-terra hover:text-white
+           active:scale-95;
   }
+
   .btn-terra-solid {
     @apply inline-flex items-center gap-1.5 rounded-full bg-bb-terra
            px-5 py-2.5 text-sm font-semibold text-white
-           transition-colors hover:bg-[#b34924] active:scale-95;
+           transition-colors hover:bg-[#b34924]
+           active:scale-95;
   }
 }

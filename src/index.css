@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ─── Brand CSS variables ──────────────────────────────── */
+:root {
+  --bb-bg:    #F7F3ED;
+  --bb-brown: #2C1A0E;
+  --bb-terra: #C4522A;
+  --bb-olive: #5C6B3A;
+  --bb-card:  #FFFAF5;
+}
+
+@layer base {
+  html { background-color: var(--bb-bg); }
+  body {
+    background-color: var(--bb-bg);
+    color: var(--bb-brown);
+    font-family: "DM Sans", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1,h2,h3,h4,h5,h6 {
+    font-family: "Fraunces", Georgia, serif;
+    line-height: 1.15;
+  }
+  a { -webkit-tap-highlight-color: transparent; }
+}
+
+@layer components {
+  .bb-container {
+    @apply max-w-content mx-auto px-4;
+  }
+  .btn-terra {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-bb-terra
+           px-5 py-2 text-sm font-medium text-bb-terra
+           transition-colors hover:bg-bb-terra hover:text-white active:scale-95;
+  }
+  .btn-terra-solid {
+    @apply inline-flex items-center gap-1.5 rounded-full bg-bb-terra
+           px-5 py-2.5 text-sm font-semibold text-white
+           transition-colors hover:bg-[#b34924] active:scale-95;
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "date": "2026-03-25",
+  "breadName": "Country Sourdough",
+  "description": "Open crumb, crackly crust, 72hr cold ferment. Made with King Arthur bread flour and our 3-year-old starter.",
+  "isFree": true,
+  "freeLabel": "Test bake — free this week",
+  "breadImage": "/assets/bread-today.jpg",
+  "supermarketComparisons": [
+    { "store": "Whole Foods", "product": "365 Organic Sourdough", "price": "$6.99", "image": "/assets/wf-sourdough.jpg" },
+    { "store": "Wegmans", "product": "Wegmans Sourdough Boule", "price": "$4.99", "image": "/assets/wegmans-sourdough.jpg" },
+    { "store": "Trader Joe's", "product": "TJ's Sourdough Loaf", "price": "$3.99", "image": "/assets/tj-sourdough.jpg" },
+    { "store": "Stop & Shop", "product": "Nature's Promise Sourdough", "price": "$4.49", "image": "/assets/ss-sourdough.jpg" },
+    { "store": "Balducci's", "product": "Artisan Sourdough", "price": "$8.99", "image": "/assets/balducci-sourdough.jpg" },
+    { "store": "Costco", "product": "Kirkland Sourdough", "price": "$7.99", "image": "/assets/costco-sourdough.jpg" }
+  ]
+}

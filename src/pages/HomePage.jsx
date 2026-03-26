@@ -22,7 +22,7 @@ function HeroCard() {
   const [imgError, setImgError] = useState(false)
 
   return (
-    <section className="bb-container pt-6">
+    <section className="bb-container pt-6 fade-up-1">
       <div className="rounded-3xl overflow-hidden bg-bb-card shadow-md ring-1 ring-bb-brown/8">
 
         {/* Bread image — warm gradient fallback when photo isn't loaded yet */}
@@ -82,7 +82,7 @@ function ComparisonPanel() {
   const bbPrice = bake.isFree ? 'Free' : 'Ask us'
 
   return (
-    <section className="pt-8">
+    <section className="pt-8 fade-up-2">
 
       {/* Heading */}
       <div className="bb-container mb-4">
@@ -183,7 +183,7 @@ function VoteSection() {
     notes:    '',
   })
 
-  /* Fetch today's vote count on mount */
+  /* Fetch today's vote count on mount — silently ignore errors */
   useEffect(() => {
     supabase
       .from('votes')
@@ -191,6 +191,7 @@ function VoteSection() {
       .eq('bake_date', today)
       .then(({ count, error }) => {
         if (!error) setCount(count ?? 0)
+        // If error: leave voteCount as null — count pill simply won't render
       })
   }, [])
 
@@ -222,20 +223,25 @@ function VoteSection() {
     setPhase('success')
   }
 
+  /*
+   * text-base = 16px — keeps iOS from auto-zooming the viewport on focus.
+   * The base CSS also sets font-size: 16px on all inputs, but being explicit
+   * here ensures Tailwind's purge doesn't strip the rule.
+   */
   const inputCls =
-    'w-full rounded-xl border border-bb-brown/12 bg-bb-card px-4 py-3 ' +
+    'w-full rounded-xl border border-bb-brown/12 bg-bb-card px-4 py-3 text-base ' +
     'text-bb-brown placeholder:text-bb-brown/30 ' +
     'focus:outline-none focus:ring-2 focus:ring-bb-terra/40 transition'
 
   return (
-    <section className="bb-container py-10">
+    <section className="bb-container py-10 fade-up-3">
 
       {/* Heading */}
       <h2 className="font-fraunces text-3xl sm:text-4xl text-bb-brown text-center leading-tight">
         Are you in for<br className="sm:hidden" /> today's bake?
       </h2>
 
-      {/* Live count pill */}
+      {/* Live count pill — hidden while loading or on error */}
       {voteCount !== null && (
         <p className="mt-2 text-sm text-bb-brown/45 text-center">
           {voteCount === 0
@@ -272,7 +278,8 @@ function VoteSection() {
           </p>
           <button
             onClick={() => setPhase('idle')}
-            className="mt-4 text-sm text-bb-terra underline underline-offset-2"
+            className="mt-4 text-sm text-bb-terra underline underline-offset-2
+                       hover:text-[#b34924] transition-colors"
           >
             Actually, I changed my mind
           </button>
@@ -283,13 +290,14 @@ function VoteSection() {
       {['idle', 'form', 'submitting', 'error'].includes(phase) && (
         <div className="mt-6">
 
-          {/* CTA buttons */}
+          {/* CTA buttons — full-width, easy to tap on mobile */}
           <div className="flex gap-3">
             <button
               onClick={() => setPhase(phase === 'form' ? 'idle' : 'form')}
               className="flex-1 py-4 rounded-2xl text-lg font-semibold
                          bg-bb-terra text-white shadow-lg shadow-bb-terra/30
-                         hover:bg-[#b34924] active:scale-[0.97] transition-all"
+                         hover:bg-[#b34924] hover:scale-[1.01]
+                         active:scale-[0.97] transition-all"
             >
               I'M IN 🙋
             </button>
@@ -297,7 +305,7 @@ function VoteSection() {
               onClick={() => setPhase('out')}
               className="flex-1 py-4 rounded-2xl text-lg font-semibold
                          border-2 border-bb-brown/15 text-bb-brown/55
-                         hover:border-bb-brown/30 hover:text-bb-brown
+                         hover:border-bb-brown/30 hover:text-bb-brown hover:scale-[1.01]
                          active:scale-[0.97] transition-all"
             >
               I'M OUT ❌
@@ -372,7 +380,8 @@ function VoteSection() {
                 type="submit"
                 disabled={phase === 'submitting'}
                 className="w-full py-4 rounded-2xl bg-bb-brown text-white text-base font-semibold
-                           hover:bg-bb-brown/90 active:scale-[0.98] disabled:opacity-50
+                           hover:bg-bb-brown/90 hover:scale-[1.01]
+                           active:scale-[0.98] disabled:opacity-50
                            transition-all shadow-sm"
               >
                 {phase === 'submitting' ? 'Saving… 🌀' : "Confirm — I want a loaf 🍞"}
@@ -386,14 +395,34 @@ function VoteSection() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   Page root
+   Page root — with empty state when no bake is posted today
    ═══════════════════════════════════════════════════════════════════════════════ */
 export default function HomePage() {
+  // If bake.json hasn't been updated to today's date, show a friendly placeholder
+  if (bake.date !== today) {
+    return (
+      <div className="bb-container pt-16 pb-20 flex flex-col items-center text-center fade-up">
+        <span className="text-7xl mb-5">🍞</span>
+        <h1 className="font-fraunces text-3xl text-bb-brown leading-tight">
+          No bake posted yet today
+        </h1>
+        <p className="mt-3 text-bb-brown/55 text-[15px] leading-relaxed max-w-xs">
+          Check back soon — we bake most weeks and post fresh here when the loaves are ready.
+        </p>
+        <p className="mt-6 text-xs text-bb-brown/30 uppercase tracking-widest">
+          Last bake: {new Date(bake.date + 'T00:00:00').toLocaleDateString('en-US', {
+            month: 'long', day: 'numeric'
+          })}
+        </p>
+      </div>
+    )
+  }
+
   return (
     <div className="pb-16">
       <HeroCard />
       <ComparisonPanel />
-      <div className="bb-container my-6">
+      <div className="bb-container my-6 fade-up-2">
         <hr className="border-bb-brown/8" />
       </div>
       <VoteSection />

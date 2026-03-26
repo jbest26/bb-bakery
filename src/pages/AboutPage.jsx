@@ -100,7 +100,7 @@ function SignupForm() {
    ═══════════════════════════════════════════════════════════════════════════════ */
 export default function AboutPage() {
   return (
-    <div className="bb-container pt-8 pb-16 space-y-12">
+    <div className="bb-container pt-8 pb-16 space-y-12 fade-up-1">
 
       {/* ── Bio section ─────────────────────────────────────────────────────────── */}
       <section>

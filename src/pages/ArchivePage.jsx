@@ -102,7 +102,7 @@ export default function ArchivePage() {
     <div className="bb-container pt-8 pb-16">
 
       {/* Header */}
-      <h1 className="font-fraunces text-3xl sm:text-4xl text-bb-brown leading-tight">
+      <h1 className="font-fraunces text-3xl sm:text-4xl text-bb-brown leading-tight fade-up-1">
         Past Bakes
       </h1>
 
@@ -118,7 +118,7 @@ export default function ArchivePage() {
       <hr className="border-bb-brown/8 mb-8" />
 
       {/* Card grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 fade-up-2">
         {PAST_BAKES.map((bake) => (
           <BakeCard key={bake.id} bake={bake} />
         ))}
